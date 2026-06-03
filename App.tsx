@@ -1,25 +1,35 @@
 import { PropsWithChildren, useState } from "react";
 import WelcomeScreen from "./screens/WelcomeScreen";
-import { Text } from "react-native";
+import { Button, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import HomeScreen from "./screens/HomeScreen";
+import { StatusBar } from "expo-status-bar";
 
+export type PageProps = {
+  navigate: (page: string) => () => void;
+}
 
-export function AppLayout(props:PropsWithChildren) {
+export function AppLayout(props: PropsWithChildren) {
   return <SafeAreaView style={{ flex: 1 }}>
     {props.children}
+    <StatusBar style={"auto"} />
   </SafeAreaView>
 }
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState("welcom");
+  const [currentPage, setCurrentPage] = useState("welcome");
+  function handleNavigate(page: string) {
+    return () => setCurrentPage(page);
+  }
   switch (currentPage) {
     case "welcome":
-      return <WelcomeScreen />;
+      return <WelcomeScreen navigate={handleNavigate} />;
     case "home":
-      return <Text>Home Screen</Text>;
+      return <HomeScreen navigate={handleNavigate} />;
     default:
       return <AppLayout>
         <Text>404 - Not Found</Text>
+        <Button title="Go Home" onPress={() => setCurrentPage("welcome")} />
       </AppLayout>;
   }
 }
