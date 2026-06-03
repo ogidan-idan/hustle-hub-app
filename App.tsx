@@ -1,49 +1,25 @@
-import { LinearGradient } from "expo-linear-gradient";
-import { View, Text, TouchableOpacity, FlatList, Button } from "react-native";
-import { button, HomeScreenStyles } from "./styles";
-import { AppLogo } from "./components/logo";
-import { CheckCircle, ShoppingBag, TrendingUp } from "lucide-react-native";
-import FeatureList from "./components/feature-item";
+import { PropsWithChildren, useState } from "react";
+import WelcomeScreen from "./screens/WelcomeScreen";
+import { Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const featuresList = [
-  {
-    icon: CheckCircle,
-    boldText: "Manage Task",
-    smallText: "Stay organized with your assignments"
-  },
-  {
-    icon: ShoppingBag,
-    boldText: "Buy & Sell",
-    smallText: "Campus marketplace for students"
-  },
-  {
-    icon: TrendingUp,
-    boldText: "Track Hustle",
-    smallText: "Monitor your side income"
-  }
-];
+
+export function AppLayout(props:PropsWithChildren) {
+  return <SafeAreaView style={{ flex: 1 }}>
+    {props.children}
+  </SafeAreaView>
+}
 
 export default function App() {
-  return <View style={HomeScreenStyles.container}>
-    <LinearGradient
-      colors={["#2b7fff", "#155dfc"]}
-      style={HomeScreenStyles.background} />
-    <AppLogo />
-    <View style={HomeScreenStyles.headerSection}>
-      <Text style={HomeScreenStyles.heading}>Welcome to</Text>
-      <Text style={HomeScreenStyles.heading}>HustleHub</Text>
-      <Text style={HomeScreenStyles.subText}>Your all-in-one student productivity platform</Text>
-    </View>
-    <View style={{ width: "85%", gap: 15, marginVertical: 20 }}>
-
-      {featuresList.map(function (feature, index) {
-        return (<FeatureList feature={feature} />);
-      })}
-
-
-    </View>
-    <TouchableOpacity style={button.secondary.container}>
-      <Text style={button.secondary.text}>Get Started</Text>
-    </TouchableOpacity>
-  </View>
+  const [currentPage, setCurrentPage] = useState("welcom");
+  switch (currentPage) {
+    case "welcome":
+      return <WelcomeScreen />;
+    case "home":
+      return <Text>Home Screen</Text>;
+    default:
+      return <AppLayout>
+        <Text>404 - Not Found</Text>
+      </AppLayout>;
+  }
 }
