@@ -1,9 +1,10 @@
 import { PropsWithChildren, useState } from "react";
 import WelcomeScreen from "./screens/WelcomeScreen";
-import { Button, Text } from "react-native";
+import { Button, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HomeScreen from "./screens/HomeScreen";
 import { StatusBar } from "expo-status-bar";
+import { TabBar } from "./components/tab-bar";
 
 export type PageProps = {
   navigate: (page: string) => () => void;
@@ -13,6 +14,7 @@ export function AppLayout(props: PropsWithChildren) {
   return <SafeAreaView style={{ flex: 1 }}>
     {props.children}
     <StatusBar style={"auto"} />
+    <TabBar/>
   </SafeAreaView>
 }
 
